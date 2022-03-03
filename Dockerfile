@@ -1,6 +1,6 @@
 FROM centos:centos7
 
-ENV OCS_VERSION 2.92
+ENV OCS_VERSION 2.9.2
 
 LABEL maintainer="contact@ocsinventory-ng.org" \
       version="${OCS_VERSION}" \
