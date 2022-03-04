@@ -27,7 +27,7 @@ RUN yum ${YUM_FLAGS} install wget \
     wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm ; \
     wget http://rpms.remirepo.net/enterprise/remi-release-7.rpm ; \
     rpm -Uvh remi-release-7.rpm ; \
-    yum-config-manager --enable remi-php73 ; \
+    yum-config-manager --enable remi-php74 ; \
     yum ${YUM_FLAGS} update ; \
     yum ${YUM_FLAGS} install perl \
     perl-XML-Simple \
@@ -42,26 +42,26 @@ RUN yum ${YUM_FLAGS} install wget \
     perl-Switch \
     perl-Apache-DBI \
     httpd \
-    php73-php \
-    php73-php-cli \
-    php73-php-ldap \
-    php73-php-gd \
-    php73-php-imap \
-    php73-php-pdo \
-    php73-php-pear \
-    php73-php-mbstring \
-    php73-php-intl \
-    php73-php-mysqlnd \
-    php73-php-xml \
-    php73-php-xmlrpc \
-    php73-php-pecl-mysql \
-    php73-php-pecl-mcrypt \
-    php73-php-pecl-apcu \
-    php73-php-json \
-    php73-php-fpm \
-    php73-php-soap \
-    php73-php-zip \
-    php73-php-opcache ;
+    php \
+    php-cli \
+    php-ldap \
+    php-gd \
+    php-imap \
+    php-pdo \
+    php-pear \
+    php-mbstring \
+    php-intl \
+    php-mysqlnd \
+    php-xml \
+    php-xmlrpc \
+    php-pecl-mysql \
+    php-pecl-mcrypt \
+    php-pecl-apcu \
+    php-json \
+    php-fpm \
+    php-soap \
+    php-zip \
+    php-opcache ;
 
 RUN wget https://github.com/OCSInventory-NG/OCSInventory-ocsreports/releases/download/${OCS_VERSION}/OCSNG_UNIX_SERVER-${OCS_VERSION}.tar.gz -P /tmp && \
     tar xzf /tmp/OCSNG_UNIX_SERVER-${OCS_VERSION}.tar.gz -C /tmp;
