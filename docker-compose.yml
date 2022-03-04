@@ -1,56 +1,41 @@
 version: '3'
 
+networks:
+   ocsNet:
+     ipam:
+       driver: default
+       config:
+         # Subnet Festlegen
+         - subnet: ${SUBNET}.0/24
+   mariadb_mysql-net:
+     external: true
+
 services:
-  ocsapplication:
-    image: ocsinventory/ocsinventory-docker-image:2.9
+  ocs-server:
+    #image: ocsinventory/ocsinventory-docker-image:latest
+    image: johann8/ocsinventory:latest
     container_name : ocsinventory-server
     restart: always
     ports:
-      - 80:80
-      - 443:443
+      - ${PORT}:80
     volumes:
-      - "perlcomdata:/etc/ocsinventory-server"
-      - "ocsreportsdata:/usr/share/ocsinventory-reports/ocsreports/extensions"
-      - "varlibdata:/var/lib/ocsinventory-reports"
-      - "httpdconfdata:/etc/httpd/conf.d"
+      - "${DOCKERDIR}/data/perlcomdata:/etc/ocsinventory-server"
+      - "${DOCKERDIR}/data/ocsreportsdata:/usr/share/ocsinventory-reports/ocsreports/extensions"
+      - "${DOCKERDIR}/data/varlibdata:/var/lib/ocsinventory-reports"
+      - "${DOCKERDIR}/data/httpdconfdata:/etc/httpd/conf.d"
+      #- "${DOCKERDIR}/data/conf/php/php.ini:/etc/opt/remi/php73/php.ini"
     environment:
-      OCS_DB_SERVER: ocsinventory-db
-      OCS_DB_USER: ocsuser
-      OCS_DB_PASS: ocspass
-      OCS_DB_NAME: ocsweb
+      TZ: ${TZ}
+      OCS_DB_SERVER: ${OCS_DB_SERVER}
+      OCS_DB_USER: ${OCS_DB_USER}
+      OCS_DB_PASS: ${OCS_DB_PASS}
+      OCS_DB_NAME: ${OCS_DB_NAME}
       # See documentation to set up SSL for MySQL
       OCS_SSL_ENABLED: 0
-    links:
-      - ocsdb
+    #links:
+      #- mysqldb
     networks:
-      - localocs
-    depends_on:
-      - ocsdb    
-
-  ocsdb :
-    image : mysql:5.7
-    container_name : ocsinventory-db
-    restart: always
-    ports :
-      - 3306:3306
-    volumes :
-      - ./sql/:/docker-entrypoint-initdb.d/
-      - sqldata:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD : rootpass
-      MYSQL_USER : ocsuser
-      MYSQL_PASSWORD : ocspass
-      MYSQL_DATABASE : ocsweb
-    networks:
-      - localocs
-  
-networks:
-  localocs:
-
-volumes:
-  perlcomdata:
-  ocsreportsdata:
-  varlibdata:
-  httpdconfdata:
-  sqldata:
-  
+      ocsNet:
+        aliases:
+          - ocs-server
+      mariadb_mysql-net:
