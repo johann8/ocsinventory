@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-_VERSION=1.0.1
+_VERSION=1.0.2
 
 # create build
 docker build -t johann8/ocsinventory:${_VERSION} .
@@ -19,13 +19,14 @@ fi
 if [ ${_BUILD} = 0 ]; then
    echo "Pushing docker images to dockerhub..."
    docker push johann8/ocsinventory:latest
-   docker push johann8/ocsinventory:${_VERSION}
    _PUSH=$?
+   docker push johann8/ocsinventory:${_VERSION}
+   _PUSH1=$?
    docker images -a |grep ocsinventory
 fi
 
 #delete build
-if [ ${_PUSH=} = 0 ]; then
+if [ ${_PUSH} = 0 ] && [ ${_PUSH1} = 0 ]; then
    echo "Deleting docker images..."
    docker rmi johann8/ocsinventory:latest
    #docker images -a
