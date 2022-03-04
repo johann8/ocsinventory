@@ -24,7 +24,6 @@ if [ ${_BUILD} = 0 ]; then
    docker images -a |grep ocsinventory
 fi
 
-
 #delete build
 if [ ${_PUSH=} = 0 ]; then
    echo "Deleting docker images..."
@@ -32,6 +31,6 @@ if [ ${_PUSH=} = 0 ]; then
    #docker images -a
    docker rmi johann8/ocsinventory:${_VERSION}
    #docker images -a
-   #docker rmi ubuntu
+   docker rmi centos:centos7 
    docker images -a
 fi
