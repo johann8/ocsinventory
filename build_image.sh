@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set variables
-_VERSION=1.0.2
+_VERSION=1.0.4
 
 # create build
 docker build -t johann8/ocsinventory:${_VERSION} .
