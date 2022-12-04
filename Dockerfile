@@ -1,6 +1,6 @@
 FROM centos:centos7
 
-ENV OCS_VERSION 2.10.0
+ENV OCS_VERSION 2.11.1
 
 LABEL maintainer="contact@ocsinventory-ng.org" \
       version="${OCS_VERSION}" \
@@ -28,6 +28,7 @@ RUN yum ${YUM_FLAGS} install wget \
     wget http://rpms.remirepo.net/enterprise/remi-release-7.rpm ; \
     rpm -Uvh remi-release-7.rpm ; \
     yum-config-manager --enable remi-php74 ; \
+    #yum-config-manager --enable remi-php80 ; \
     yum ${YUM_FLAGS} update ; \
     yum ${YUM_FLAGS} install perl \
     perl-XML-Simple \
