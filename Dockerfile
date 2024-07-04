@@ -18,6 +18,9 @@ ENV APACHE_RUN_USER=apache APACHE_RUN_GROUP=apache \
 
 VOLUME /var/lib/ocsinventory-reports /etc/ocsinventory-server /usr/share/ocsinventory-reports/ocsreports/extensions
 
+RUN sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-* && \
+    sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
+
 RUN yum ${YUM_FLAGS} install wget \
     curl \
     yum-utils \
