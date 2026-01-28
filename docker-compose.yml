@@ -26,6 +26,7 @@ services:
       #- "${DOCKERDIR}/data/conf/php/php.ini:/etc/opt/remi/php73/php.ini"
     environment:
       TZ: ${TZ}
+      PREFERRED_LANGUAGE: ${PREFERRED_LANGUAGE}
       OCS_DB_SERVER: ${OCS_DB_SERVER}
       OCS_DB_USER: ${OCS_DB_USER}
       OCS_DB_PASS: ${OCS_DB_PASS}
