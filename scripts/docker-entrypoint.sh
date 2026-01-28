@@ -95,18 +95,25 @@ fi
 
 # Replace Variables
 if [ -f ${SRV_CONF_FILE} ] && [ -z ${OCS_DISABLE_COM_MODE+x} ]; then
-	echo "+-----------------------------------------------+"
-	echo "|   Customizing from environment variables...   |"
-	echo "+-----------------------------------------------+"
-	echo
-	# Get all env vars starting with 'OCS_'
-	for var in $(env | cut -f1 -d= | grep -i OCS_); do
-		# Check that the current var is not commented out in conf file
-		if grep -q "^\s*PerlSetEnv ${var^^}" ${SRV_CONF_FILE} ; then
-			echo "Applying Config ${var^^}=${!var} from environment variable"
-			sed -i "s,^\(\s*PerlSetEnv ${var^^}\).*$,\1 ${!var},g" ${SRV_CONF_FILE}
-		fi
-	done
+   echo "+-----------------------------------------------+"
+   echo "|   Customizing from environment variables...   |"
+   echo "+-----------------------------------------------+"
+   echo ""
+   # Get all env vars starting with 'OCS_'
+   for var in $(env | cut -f1 -d= | grep -i OCS_); do
+      # Check that the current var is not commented out in conf file
+      if grep -q "^\s*PerlSetEnv ${var^^}" ${SRV_CONF_FILE} ; then
+         echo "Applying Config ${var^^}=${!var} from environment variable"
+         sed -i "s,^\(\s*PerlSetEnv ${var^^}\).*$,\1 ${!var},g" ${SRV_CONF_FILE}
+      fi
+   done
+fi
+
+if [[ -n ${PREFERRED_LANGUAGE} ]]; then
+   echo "Applying Config PREFERRED_LANGUAGE=${PREFERRED_LANGUAGE} from environment variable."
+   sed -i -e "s/en_GB/${PREFERRED_LANGUAGE}/" /usr/share/ocsinventory-reports/ocsreports/var.php
+else
+   echo "Info: Variable PREFERRED_LANGUAGE is not set."
 fi
 
 # Configure ocsinventory-reports file 
